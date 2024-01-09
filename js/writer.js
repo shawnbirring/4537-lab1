@@ -29,10 +29,9 @@ class Note {
 }
 
 function fetchNotes() {
-  notes =
-    JSON.parse(localStorage.getItem("notes")).map(
-      (note) => new Note(note.text)
-    ) || [];
+  notes = (JSON.parse(localStorage.getItem("notes")) || []).map(
+    (note) => new Note(note.text)
+  );
 }
 
 function updateNotesContainer() {
