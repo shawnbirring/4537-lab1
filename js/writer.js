@@ -28,12 +28,6 @@ class Note {
   }
 }
 
-function fetchNotes() {
-  notes = (JSON.parse(localStorage.getItem("notes")) || []).map(
-    (note) => new Note(note.text)
-  );
-}
-
 function updateNotesContainer() {
   const notesElement = document.getElementById("container");
   notesElement.innerHTML = "";
@@ -64,9 +58,9 @@ function update() {
   updateSaveTime();
 }
 
-let notes = [];
-fetchNotes();
+const notes = (JSON.parse(localStorage.getItem("notes")) || []).map(
+  (note) => new Note(note.text)
+);
 updateNotesContainer();
-saveToLocalStorage();
 updateSaveTime();
 setInterval(update, 2000);
