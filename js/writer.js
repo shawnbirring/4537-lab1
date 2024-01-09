@@ -24,14 +24,18 @@ class Note {
   remove() {
     const index = notes.indexOf(this);
     notes.splice(index, 1);
-    updateNotes();
+    updateNotesContainer();
   }
 }
 
-let notes = JSON.parse(localStorage.getItem("notes")) || [];
-notes = notes.map((note) => new Note(note.text));
+function fetchNotes() {
+  notes =
+    JSON.parse(localStorage.getItem("notes")).map(
+      (note) => new Note(note.text)
+    ) || [];
+}
 
-function updateNotes() {
+function updateNotesContainer() {
   const notesElement = document.getElementById("container");
   notesElement.innerHTML = "";
   for (const note of notes) {
@@ -43,10 +47,10 @@ function updateNotes() {
 function addNote() {
   const note = new Note();
   notes.push(note);
-  updateNotes();
+  updateNotesContainer();
 }
 
-function save() {
+function saveToLocalStorage() {
   localStorage.setItem("notes", JSON.stringify(notes));
   updateSaveTime();
 }
@@ -57,10 +61,13 @@ function updateSaveTime() {
 }
 
 function update() {
-  save();
-  updateNotes();
+  saveToLocalStorage();
   updateSaveTime();
 }
 
-update();
+let notes = [];
+fetchNotes();
+updateNotesContainer();
+saveToLocalStorage();
+updateSaveTime();
 setInterval(update, 2000);
