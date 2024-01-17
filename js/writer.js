@@ -61,6 +61,12 @@ function update() {
 const notes = (JSON.parse(localStorage.getItem("notes")) || []).map(
   (note) => new Note(note.text)
 );
-updateNotesContainer();
-updateSaveTime();
-setInterval(update, 2000);
+
+if (typeof Storage !== "undefined") {
+  updateNotesContainer();
+  updateSaveTime();
+  setInterval(update, 2000);
+} else {
+  const container = document.getElementById("container");
+  container.innerText = invalidBrowser;
+}

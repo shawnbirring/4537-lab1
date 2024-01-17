@@ -7,6 +7,13 @@ function updateNotes() {
   }
 }
 
+function createElement(note) {
+  const textbox = document.createElement("textarea");
+  textbox.value = note.text;
+  textbox.readOnly = true;
+  return textbox;
+}
+
 function updateSaveTime() {
   const lastSaveTime = document.getElementById("fetch-time");
   lastSaveTime.innerText =
@@ -18,11 +25,10 @@ function update() {
   updateSaveTime();
 }
 
-function createElement(note) {
-  const textbox = document.createElement("textarea");
-  textbox.value = note.text;
-  textbox.readOnly = true;
-  return textbox;
+if (typeof Storage !== "undefined") {
+  update();
+  setInterval(update, 2000);
+} else {
+  const container = document.getElementById("container");
+  container.innerText = invalidBrowser;
 }
-update();
-setInterval(update, 2000);
