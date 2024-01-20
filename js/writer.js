@@ -1,3 +1,6 @@
+const notesContainerID = "container";
+const localStorageID = "notes";
+const savedID = "saved-time";
 class Note {
   constructor(text = "") {
     this.text = text;
@@ -10,7 +13,7 @@ class Note {
       this.text = textbox.value;
     });
     const removeButton = document.createElement("button");
-    removeButton.innerText = "Remove";
+    removeButton.innerText = removeText;
     removeButton.addEventListener("click", () => {
       this.remove();
     });
@@ -29,7 +32,7 @@ class Note {
 }
 
 function updateNotesContainer() {
-  const notesElement = document.getElementById("container");
+  const notesElement = document.getElementById(notesContainerID);
   notesElement.innerHTML = "";
   for (const note of notes) {
     notesElement.appendChild(note.createElement());
@@ -44,13 +47,13 @@ function addNote() {
 }
 
 function saveToLocalStorage() {
-  localStorage.setItem("notes", JSON.stringify(notes));
+  localStorage.setItem(localStorageID, JSON.stringify(notes));
   updateSaveTime();
 }
 
 function updateSaveTime() {
-  const lastSaveTime = document.getElementById("saved-time");
-  lastSaveTime.innerText = "Last saved at: " + new Date().toLocaleTimeString();
+  const lastSaveTime = document.getElementById(savedID);
+  lastSaveTime.innerText = savedAt + new Date().toLocaleTimeString();
 }
 
 function update() {
@@ -58,7 +61,7 @@ function update() {
   updateSaveTime();
 }
 
-const notes = (JSON.parse(localStorage.getItem("notes")) || []).map(
+const notes = (JSON.parse(localStorage.getItem(localStorageID)) || []).map(
   (note) => new Note(note.text)
 );
 
@@ -67,6 +70,6 @@ if (typeof Storage !== "undefined") {
   updateSaveTime();
   setInterval(update, 2000);
 } else {
-  const container = document.getElementById("container");
+  const container = document.getElementById(notesContainerID);
   container.innerText = invalidBrowser;
 }

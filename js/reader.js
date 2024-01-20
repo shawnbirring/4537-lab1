@@ -1,6 +1,10 @@
+const notesContainerID = "container";
+const localStorageID = "notes";
+const fetchedID = "fetch-time";
+
 function updateNotes() {
-  const notes = JSON.parse(localStorage.getItem("notes")) || [];
-  const notesElement = document.getElementById("container");
+  const notes = JSON.parse(localStorage.getItem(localStorageID)) || [];
+  const notesElement = document.getElementById(notesContainerID);
   notesElement.innerHTML = "";
   for (const note of notes) {
     notesElement.appendChild(createElement(note));
@@ -15,9 +19,8 @@ function createElement(note) {
 }
 
 function updateSaveTime() {
-  const lastSaveTime = document.getElementById("fetch-time");
-  lastSaveTime.innerText =
-    "Last retrieved at: " + new Date().toLocaleTimeString();
+  const lastSaveTime = document.getElementById(fetchedID);
+  lastSaveTime.innerText = lastReceived + new Date().toLocaleTimeString();
 }
 
 function update() {
@@ -29,6 +32,6 @@ if (typeof Storage !== "undefined") {
   update();
   setInterval(update, 2000);
 } else {
-  const container = document.getElementById("container");
+  const container = document.getElementById(notesContainerID);
   container.innerText = invalidBrowser;
 }
